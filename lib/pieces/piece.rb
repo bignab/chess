@@ -12,17 +12,17 @@ class Piece
   def convert_to_chess_symbol # rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
     case type
     when 'king'
-      colour == 'white' ? '♔' : '♚'
+      colour == 'black' ? '♔' : '♚'
     when 'queen'
-      colour == 'white' ? '♕' : '♛'
+      colour == 'black' ? '♕' : '♛'
     when 'rook'
-      colour == 'white' ? '♖' : '♜'
+      colour == 'black' ? '♖' : '♜'
     when 'bishop'
-      colour == 'white' ? '♗' : '♝'
+      colour == 'black' ? '♗' : '♝'
     when 'knight'
-      colour == 'white' ? '♘' : '♞'
+      colour == 'black' ? '♘' : '♞'
     when 'pawn'
-      colour == 'white' ? '♙' : '♟︎'
+      colour == 'black' ? '♙' : '♟︎'
     end
   end
 end
