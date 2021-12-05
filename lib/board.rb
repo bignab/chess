@@ -25,6 +25,7 @@ class Board
     Array.new(8) { Array.new(8) { nil } }
   end
 
+  # Place starting pieces onto the board.
   def starting_pieces
     @squares[0].replace([Rook.new('black'), Knight.new('black'), Bishop.new('black'), Queen.new('black'),
                          King.new('black'), Bishop.new('black'), Knight.new('black'), Rook.new('black')])
@@ -34,10 +35,17 @@ class Board
                          King.new('white'), Bishop.new('white'), Knight.new('white'), Rook.new('white')])
   end
 
+  # Returns the coordinate of the given piece passed into the method.
   def piece_coord(piece)
-    # TBD
+    @squares.each_with_index do |row, index|
+      next if row.all?(nil)
+
+      return [index, row.index(piece)] unless row.index(piece).nil?
+    end
+    nil
   end
 end
 
 test_board = Board.new
+p test_board.piece_coord(test_board.squares[5][3])
 test_board.print_board(test_board.squares)
