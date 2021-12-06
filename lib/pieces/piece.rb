@@ -3,6 +3,7 @@
 # Parent class for all the chess pieces, and will contain methods that are shared across all pieces.
 class Piece
   attr_reader :colour, :type
+  attr_accessor :moved
 
   def initialize(colour, type = nil)
     @colour = colour
