@@ -2,10 +2,10 @@
 
 require './lib/game'
 
-describe Game do
+describe Moveable do # rubocop:disable Metrics/BlockLength
   subject { Game.new }
 
-  describe 'Moveable::king_moves' do
+  describe 'king_moves' do # rubocop:disable Metrics/BlockLength
     context 'when in the middle of the board' do
       it 'returns correct legal moves' do
         correct_legal_moves = [[2, 2], [2, 3], [2, 4],
@@ -40,7 +40,7 @@ describe Game do
     end
   end
 
-  describe 'Moveable::rook_moves' do
+  describe 'rook_moves' do
     context 'when in the middle of the board' do
       it 'on square [3,3]' do
         correct_legal_moves = [[0, 3], [1, 3], [2, 3], [4, 3], [5, 3], [6, 3], [7, 3],
@@ -50,7 +50,7 @@ describe Game do
     end
   end
 
-  describe 'Moveable::bishop_moves' do
+  describe 'bishop_moves' do
     context 'when in the middle of the board' do
       it 'on square [4,5]' do
         correct_legal_moves = [[0, 1], [1, 2], [2, 3], [3, 4], [5, 6], [6, 7], [3, 6],
@@ -60,7 +60,7 @@ describe Game do
     end
   end
 
-  describe 'Moveable::queen_moves' do
+  describe 'queen_moves' do
     context 'when in the middle of the board' do
       it 'on square [4,5]' do
         correct_legal_moves = [[0, 1], [1, 2], [2, 3], [3, 4], [5, 6], [6, 7], [3, 6],
@@ -72,7 +72,7 @@ describe Game do
     end
   end
 
-  describe 'Moveable::knight_moves' do
+  describe 'knight_moves' do
     context 'when in the middle of the board' do
       it 'on square [4,5]' do
         correct_legal_moves = [[2, 4], [2, 6], [3, 7], [5, 7], [6, 6], [6, 4], [5, 3], [3, 3]]
@@ -87,7 +87,7 @@ describe Game do
     end
   end
 
-  describe 'Moveable::pawn_moves' do
+  describe 'pawn_moves' do
     context 'when white' do
       it 'on square [3,5]' do
         correct_legal_moves = [[2, 5]]

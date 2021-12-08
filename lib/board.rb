@@ -15,9 +15,9 @@ class Board
 
   include Outputable
 
-  def initialize
+  def initialize(empty: false)
     @squares = initialize_squares
-    starting_pieces
+    starting_pieces unless empty
   end
 
   # Creates an 8x8 2D array, with every element set to nil.
@@ -46,6 +46,6 @@ class Board
   end
 end
 
-test_board = Board.new
+test_board = Board.new(empty: true)
 p test_board.piece_coord(test_board.squares[5][3])
 test_board.print_board(test_board.squares)

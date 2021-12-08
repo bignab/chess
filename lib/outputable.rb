@@ -4,9 +4,9 @@ require './lib/string'
 
 # Module used to display any and all output for the game.
 module Outputable
-  def print_board(board)
+  def print_board(squares)
     puts '   a b c d e f g h'
-    board.each_with_index do |row, r_index|
+    squares.each_with_index do |row, r_index|
       print " #{8 - r_index} "
       row.each_with_index do |square, c_index|
         symbol_output = ' '
