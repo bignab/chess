@@ -152,8 +152,8 @@ describe Collisionable do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  describe 'pawn_collision?' do
-    context 'when white' do
+  describe 'pawn_collision?' do # rubocop:disable Metrics/BlockLength
+    context 'when white' do # rubocop:disable Metrics/BlockLength
       context 'when moving a single step' do
         it 'returns false when no piece colliding' do
           subject.board.squares[3][3] = Pawn.new('white')

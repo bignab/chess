@@ -10,13 +10,30 @@ class Game
 
   include Moveable
   include Collisionable
+  include Outputable
 
-  def initialize(board = Board.new)
+  def initialize(board = Board.new, turn = 'white', end_condition: false)
     @board = board
+    @turn = turn
+    @end_condition = end_condition
   end
 
   def game_loop
-    # TBD
+    intro_message
+    until @end_condition
+      full_player_turn
+    end
+  end
+
+  def full_player_turn
+    @board.print_board_local
+    player_turn_message(@turn)
+    p receive_input_and_parse # temp until move function implemented
+    next_turn
+  end
+
+  def next_turn
+    @turn = @turn == 'white' ? 'black' : 'white'
   end
 
   def move_piece(piece)
@@ -24,8 +41,5 @@ class Game
   end
 end
 
-test_game = Game.new(Board.new(empty: true))
-test_game.board.squares[3][3] = Rook.new('black')
-test_game.board.squares[7][3] = Pawn.new('black')
-test_game.board.print_board(test_game.board.squares)
-puts test_game.rook_collision?(test_game.board, test_game.board.squares[3][3], [7, 3])
+test_game = Game.new(Board.new)
+test_game.game_loop

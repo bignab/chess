@@ -2,7 +2,7 @@
 
 # Class used to parse algebraic chess notation into legal moves on the board.
 class Parser
-  def parse_input(raw_input) # rubocop:disable Metrics/MethodLength
+  def parse_input(raw_input) # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
     input = raw_input.strip
     case input[0]
     when 'O' then castle(input)
@@ -107,6 +107,3 @@ class Parser
     dictionary[square]
   end
 end
-
-test_parser = Parser.new('lmao')
-p test_parser.parse_input('e8=R')

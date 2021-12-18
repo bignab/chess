@@ -44,8 +44,12 @@ class Board
     end
     nil
   end
+
+  def print_board_local
+    print_board(@squares)
+  end
 end
 
-test_board = Board.new(empty: true)
-p test_board.piece_coord(test_board.squares[5][3])
-test_board.print_board(test_board.squares)
+# test_board = Board.new(empty: true)
+# p test_board.piece_coord(test_board.squares[5][3])
+# test_board.print_board(test_board.squares)

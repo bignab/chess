@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/string'
+require './lib/parser'
 
 # Module used to display any and all output for the game.
 module Outputable
@@ -21,5 +22,29 @@ module Outputable
       puts
     end
     puts '   a b c d e f g h'
+  end
+
+  def intro_message
+    puts 'Hello! Welcome to this CLI-based game of chess.'
+  end
+
+  def player_turn_message(player)
+    current_player = 'White'
+    current_player = 'Black' if player == 'black'
+    puts "#{current_player} to move."
+    puts 'Please enter your move using algebraic notation (e.g. Kxb3).'
+  end
+
+  def receive_input_and_parse
+    result = 'Invalid'
+    first_iter = true
+    while result == 'Invalid'
+      puts 'Invalid input, try again using algebraic notation.' unless first_iter == true
+      first_iter = false
+      input = gets.chomp
+      move_parser = Parser.new
+      result = move_parser.parse_input(input)
+    end
+    result
   end
 end
