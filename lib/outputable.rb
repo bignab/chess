@@ -41,9 +41,7 @@ module Outputable
     while result == 'Invalid'
       puts 'Invalid input, try again using algebraic notation.' unless first_iter == true
       first_iter = false
-      input = gets.chomp
-      move_parser = Parser.new
-      result = move_parser.parse_input(input)
+      result = Parser.new.parse_input(gets.chomp)
     end
     result
   end
