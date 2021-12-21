@@ -23,7 +23,7 @@ module Moveable
     when 'bishop'
       bishop_moves(board.piece_coord(piece))
     when 'pawn'
-      pawn_moves(board.piece_coord(piece), colour, moved)
+      pawn_moves(board.piece_coord(piece), piece.colour, piece.moved)
     end
   end
 

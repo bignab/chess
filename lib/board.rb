@@ -26,7 +26,7 @@ class Board
   end
 
   # Place starting pieces onto the board.
-  def starting_pieces
+  def starting_pieces # rubocop:disable Metrics/AbcSize
     @squares[0].replace([Rook.new('black'), Knight.new('black'), Bishop.new('black'), Queen.new('black'),
                          King.new('black'), Bishop.new('black'), Knight.new('black'), Rook.new('black')])
     @squares[1].replace(Array.new(8) { Pawn.new('black') })
@@ -43,6 +43,28 @@ class Board
       return [index, row.index(piece)] unless row.index(piece).nil?
     end
     nil
+  end
+
+  def find_piece(type, colour, disamb)
+    row_range = disamb[0].nil? ? [0, 1, 2, 3, 4, 5, 6, 7] : [disamb[0]]
+    col_range = disamb[1].nil? ? [0, 1, 2, 3, 4, 5, 6, 7] : [disamb[1]]
+    piece_arr = []
+    row_range.each do |row_coord|
+      col_range.each do |col_coord|
+        unless @squares[row_coord][col_coord].nil?
+          if @squares[row_coord][col_coord].colour == colour && @squares[row_coord][col_coord].type == type
+            piece_arr.push(@squares[row_coord][col_coord])
+          end
+        end
+      end
+    end
+    piece_arr
+  end
+
+  def occupy_square(piece, move)
+    orig_pos = piece_coord(piece)
+    @squares[move[0]][move[1]] = piece
+    @squares[orig_pos[0]][orig_pos[1]] = nil
   end
 
   def print_board_local

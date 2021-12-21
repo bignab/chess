@@ -50,7 +50,7 @@ class Parser
     end
   end
 
-  # Returns an array with four elements: [type], [move], [disamb], [promotion], [captures?].
+  # Returns an array with five elements: 0[type], 1[move], 2[disamb], 3[promotion], 4[captures?].
   def three_char_move(type, input, disamb = [nil, nil], promotion = nil, captures: false)
     if input[1] =~ /[abcdefgh]/ && input[2] =~ /[12345678]/
       move = (input[1] + input[2]).intern

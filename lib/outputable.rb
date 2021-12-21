@@ -6,6 +6,7 @@ require './lib/parser'
 # Module used to display any and all output for the game.
 module Outputable
   def print_board(squares)
+    puts `clear`
     puts '   a b c d e f g h'
     squares.each_with_index do |row, r_index|
       print " #{8 - r_index} "
@@ -33,6 +34,14 @@ module Outputable
     current_player = 'Black' if player == 'black'
     puts "#{current_player} to move."
     puts 'Please enter your move using algebraic notation (e.g. Kxb3).'
+  end
+
+  def ambiguous_message(type)
+    puts "Specify which #{type} to move."
+  end
+
+  def illegal_move_message
+    puts 'Illegal move, try  again.'
   end
 
   def receive_input_and_parse
