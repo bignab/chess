@@ -3,6 +3,7 @@
 require './lib/moveable'
 require './lib/board'
 require './lib/collisionable'
+require './lib/capturable'
 
 # Game class containing the game loop and other methods relating to the progress of the game.
 class Game
@@ -11,6 +12,7 @@ class Game
   include Moveable
   include Collisionable
   include Outputable
+  include Capturable
 
   def initialize(board = Board.new, turn = 'white', end_condition: false)
     @board = board
@@ -49,7 +51,8 @@ class Game
   end
 
   def valid_move?(piece, attempted_move)
-    if legal_moves(@board, piece).include?(attempted_move) && !check_collision(@board, piece, attempted_move)
+    if (legal_moves(@board, piece).include?(attempted_move) && !check_collision(@board, piece, attempted_move)) ||
+       (legal_moves(@board, piece).include?(attempted_move) && check_capture(@board, piece, attempted_move, @turn))
       return true
     end
 
@@ -68,7 +71,16 @@ class Game
   end
 end
 
-test_game = Game.new(Board.new)
+test_game = Game.new
 test_game.game_loop
+
+# test_game = Game.new(Board.new(empty: true))
+# test_game.board.squares[4][4] = Pawn.new('white')
+# test_game.board.squares[3][5] = Pawn.new('black')
+# test_game.board.squares[3][4] = Pawn.new('black')
+# test_game.board.squares[2][3] = Knight.new('black')
+# test_game.board.squares[3][6] = Rook.new('black')
+# test_game.board.print_board_local
+# test_game.pawn_capture(test_game.board, test_game.board.squares[4][4], [3, 5], 'white')
 
 # ['rook', [0, 6], [nil, nil], nil, false]

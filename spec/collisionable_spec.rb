@@ -69,12 +69,12 @@ describe Collisionable do # rubocop:disable Metrics/BlockLength
     it 'returns false when no piece colliding' do
       subject.board.squares[2][3] = Knight.new('black')
       subject.board.squares[2][6] = Rook.new('black')
-      expect(subject.king_collision?(subject.board, [3, 6])).to be false
+      expect(subject.knight_collision?(subject.board, [3, 5])).to be false
     end
     it 'returns true when piece is colliding' do
       subject.board.squares[2][3] = Knight.new('black')
-      subject.board.squares[3][6] = Rook.new('black')
-      expect(subject.king_collision?(subject.board, [3, 6])).to be true
+      subject.board.squares[3][5] = Rook.new('black')
+      expect(subject.knight_collision?(subject.board, [3, 5])).to be true
     end
   end
 
