@@ -45,6 +45,19 @@ class Board
     nil
   end
 
+  def new_piece(type, colour)
+    case type
+    when 'Q'
+      Queen.new(colour)
+    when 'R'
+      Rook.new(colour)
+    when 'B'
+      Bishop.new(colour)
+    when 'N'
+      Knight.new(colour)
+    end
+  end
+
   def find_piece(type, colour, disamb)
     row_range = disamb[0].nil? ? [0, 1, 2, 3, 4, 5, 6, 7] : [disamb[0]]
     col_range = disamb[1].nil? ? [0, 1, 2, 3, 4, 5, 6, 7] : [disamb[1]]
@@ -62,6 +75,7 @@ class Board
   end
 
   def occupy_square(piece, move)
+    piece.moved = true if piece.type == 'pawn'
     orig_pos = piece_coord(piece)
     @squares[move[0]][move[1]] = piece
     @squares[orig_pos[0]][orig_pos[1]] = nil

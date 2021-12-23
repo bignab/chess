@@ -27,7 +27,7 @@ class Parser
   end
 
   def pawn_move(input, promo = nil)
-    return pawn_move(input[0..-3], input[-1]) if input.length > 3 && input[-2] == '=' && input[-1] =~ /[QRBK]/
+    return pawn_move(input[0..-3], input[-1]) if input.length > 3 && input[-2] == '=' && input[-1] =~ /[QRBN]/
 
     case input.length
     # _ at start b/c #three_char_move starts at [1].
@@ -50,7 +50,7 @@ class Parser
     end
   end
 
-  # Returns an array with five elements: 0[type], 1[move], 2[disamb], 3[promotion], 4[captures?].
+  # Returns an array with five elements: 0[type], 1[move], 2[disamb], 3[captures?], 4[promotion].
   def three_char_move(type, input, disamb = [nil, nil], promotion = nil, captures: false)
     if input[1] =~ /[abcdefgh]/ && input[2] =~ /[12345678]/
       move = (input[1] + input[2]).intern

@@ -48,6 +48,7 @@ class Game
       unique_piece = filter_unique_piece(possible_pieces, parser_arr[1])
     end
     @board.occupy_square(unique_piece, parser_arr[1])
+    check_pawn_promotion(unique_piece, parser_arr[1], parser_arr[4])
   end
 
   def valid_move?(piece, attempted_move)
@@ -69,18 +70,20 @@ class Game
 
     1 # 1 represents an illegal move.
   end
+
+  def check_pawn_promotion(piece, move, promote_to)
+    if piece.type == 'pawn'
+      if piece.colour == 'white' && move[0].zero?
+        @board.squares[move[0]][move[1]] = @board.new_piece(promote_to, 'white')
+      elsif piece.colour == 'black' && move[0] == 7
+        @board.squares[move[0]][move[1]] = @board.new_piece(promote_to, 'black')
+      end
+    end
+  end
 end
 
 test_game = Game.new
+# test_game.board.squares[6][7] = Pawn.new('black')
+# test_game.move_piece(["pawn", [0, 6], [nil, 7], true, "R"])
+# test_game.board.squares[0][7] = test_game.board.new_piece('Q', 'white')
 test_game.game_loop
-
-# test_game = Game.new(Board.new(empty: true))
-# test_game.board.squares[4][4] = Pawn.new('white')
-# test_game.board.squares[3][5] = Pawn.new('black')
-# test_game.board.squares[3][4] = Pawn.new('black')
-# test_game.board.squares[2][3] = Knight.new('black')
-# test_game.board.squares[3][6] = Rook.new('black')
-# test_game.board.print_board_local
-# test_game.pawn_capture(test_game.board, test_game.board.squares[4][4], [3, 5], 'white')
-
-# ['rook', [0, 6], [nil, nil], nil, false]
