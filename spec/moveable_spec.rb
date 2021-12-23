@@ -91,21 +91,21 @@ describe Moveable do # rubocop:disable Metrics/BlockLength
     context 'when white' do
       it 'on square [3,5]' do
         correct_legal_moves = [[2, 5]]
-        expect(subject.pawn_moves([3, 5], 'white', true)).to match_array(correct_legal_moves)
+        expect(subject.pawn_moves([3, 5], 'white', true, subject.board, subject.board.squares[0][6])).to match_array(correct_legal_moves)
       end
       it 'on square [6,0]' do
         correct_legal_moves = [[5, 0], [4, 0]]
-        expect(subject.pawn_moves([6, 0], 'white', false)).to match_array(correct_legal_moves)
+        expect(subject.pawn_moves([6, 0], 'white', false, subject.board, subject.board.squares[0][6])).to match_array(correct_legal_moves)
       end
     end
     context 'when black' do
       it 'on square [4,5]' do
         correct_legal_moves = [[4, 5]]
-        expect(subject.pawn_moves([3, 5], 'black', true)).to match_array(correct_legal_moves)
+        expect(subject.pawn_moves([3, 5], 'black', true, subject.board, subject.board.squares[0][1])).to match_array(correct_legal_moves)
       end
       it 'on square [1,0]' do
         correct_legal_moves = [[2, 0], [3, 0]]
-        expect(subject.pawn_moves([1, 0], 'black', false)).to match_array(correct_legal_moves)
+        expect(subject.pawn_moves([1, 0], 'black', false, subject.board, subject.board.squares[0][1])).to match_array(correct_legal_moves)
       end
     end
   end
