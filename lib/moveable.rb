@@ -7,9 +7,12 @@ require './lib/pieces/pawn'
 require './lib/pieces/piece'
 require './lib/pieces/queen'
 require './lib/pieces/rook'
+require './lib/capturable'
 
 # Module used to check for valid moves for each piece.
 module Moveable
+  include Capturable
+
   def legal_moves(board, piece) # rubocop:disable Metrics/MethodLength
     case piece.type
     when 'king'
@@ -23,7 +26,7 @@ module Moveable
     when 'bishop'
       bishop_moves(board.piece_coord(piece))
     when 'pawn'
-      pawn_moves(board.piece_coord(piece), piece.colour, piece.moved)
+      pawn_moves(board.piece_coord(piece), piece.colour, piece.moved, board, piece)
     end
   end
 
@@ -102,14 +105,19 @@ module Moveable
     in_bound_moves
   end
 
-  def pawn_moves(coord, colour, moved)
+  # Returns all possible pawn moves including capturing moves.
+  def pawn_moves(coord, colour, moved, board, piece)
     legal_moves = []
     if colour == 'white'
       legal_moves.push([coord[0] - 1, coord[1]])
       legal_moves.push([coord[0] - 2, coord[1]]) unless moved
+      legal_moves.push([coord[0] - 1, coord[1] + 1]) if pawn_capture?(board, piece, [coord[0] - 1, coord[1] + 1], colour) # rubocop:disable Layout/LineLength
+      legal_moves.push([coord[0] - 1, coord[1] - 1]) if pawn_capture?(board, piece, [coord[0] - 1, coord[1] - 1], colour) # rubocop:disable Layout/LineLength
     else
       legal_moves.push([coord[0] + 1, coord[1]])
       legal_moves.push([coord[0] + 2, coord[1]]) unless moved
+      legal_moves.push([coord[0] + 1, coord[1] + 1]) if pawn_capture?(board, piece, [coord[0] + 1, coord[1] + 1], colour) # rubocop:disable Layout/LineLength
+      legal_moves.push([coord[0] + 1, coord[1] - 1]) if pawn_capture?(board, piece, [coord[0] + 1, coord[1] - 1], colour) # rubocop:disable Layout/LineLength
     end
     legal_moves
   end
