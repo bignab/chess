@@ -44,6 +44,10 @@ module Outputable
     puts 'Illegal move, try  again.'
   end
 
+  def king_in_check_message
+    puts 'King is in check!'
+  end
+
   def receive_input_and_parse
     result = 'Invalid'
     first_iter = true

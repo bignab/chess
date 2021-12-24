@@ -4,15 +4,17 @@ require './lib/moveable'
 require './lib/board'
 require './lib/collisionable'
 require './lib/capturable'
+require './lib/checkable'
 
 # Game class containing the game loop and other methods relating to the progress of the game.
 class Game
-  attr_reader :board
+  attr_reader :board, :turn
 
   include Moveable
   include Collisionable
   include Outputable
   include Capturable
+  include Checkable
 
   def initialize(board = Board.new, turn = 'white', end_condition: false)
     @board = board
@@ -31,14 +33,33 @@ class Game
   def full_player_turn
     @board.print_board_local
     player_turn_message(@turn)
-    move_piece(receive_input_and_parse)
+    king_in_check_message if king_in_check?(opposite_turn, @board)
+    move_piece
   end
 
   def next_turn
     @turn = @turn == 'white' ? 'black' : 'white'
   end
 
-  def move_piece(parser_arr)
+  def opposite_turn
+    @turn == 'white' ? 'black' : 'white'
+  end
+
+  def move_piece
+    parser_arr = []
+    unique_piece = nil
+    loop do
+      parser_arr = receive_input_and_parse
+      piece_and_arr = input_unique_piece(parser_arr)
+      unique_piece = piece_and_arr[0]
+      parser_arr = piece_and_arr[1]
+      break unless king_in_check?(opposite_turn, simulate_board(@board, @board.piece_coord(unique_piece), parser_arr[1]))
+    end
+    @board.occupy_square(unique_piece, parser_arr[1])
+    check_pawn_promotion(unique_piece, parser_arr[1], parser_arr[4])
+  end
+
+  def input_unique_piece(parser_arr)
     possible_pieces = @board.find_piece(parser_arr[0], @turn, parser_arr[2])
     unique_piece = filter_unique_piece(possible_pieces, parser_arr[1])
     while [0, 1].include?(unique_piece)
@@ -47,8 +68,7 @@ class Game
       possible_pieces = @board.find_piece(parser_arr[0], @turn, parser_arr[2])
       unique_piece = filter_unique_piece(possible_pieces, parser_arr[1])
     end
-    @board.occupy_square(unique_piece, parser_arr[1])
-    check_pawn_promotion(unique_piece, parser_arr[1], parser_arr[4])
+    [unique_piece, parser_arr]
   end
 
   def valid_move?(piece, attempted_move)
@@ -83,7 +103,20 @@ class Game
 end
 
 test_game = Game.new
-# test_game.board.squares[6][7] = Pawn.new('black')
-# test_game.move_piece(["pawn", [0, 6], [nil, 7], true, "R"])
+# test_game.next_turn
+# test_game.board.squares[4][4] = Pawn.new('white')
+# test_game.board.squares[3][4] = Pawn.new('black')
+# test_game.board.squares[2][2] = Knight.new('black')
+# test_game.board.squares[3][1] = Bishop.new('white')
+# test_game.board.squares[0][1] = nil
+# test_game.board.squares[1][4] = nil
+# test_game.board.squares[6][4] = nil
+# test_game.board.squares[7][5] = nil
+# test_game.board.squares[7][6] = nil
+# test_game.board.print_board_local
+# test_game.move_piece(["pawn", [2, 3], [nil, 3], false, nil])
+# test_game.king_in_check?(test_game.turn, test_game.board)
+# test_game.move_piece(["pawn", [4, 2], [nil, 2], false, nil])
 # test_game.board.squares[0][7] = test_game.board.new_piece('Q', 'white')
 test_game.game_loop
+
