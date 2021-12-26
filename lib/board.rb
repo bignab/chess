@@ -75,10 +75,20 @@ class Board
   end
 
   def occupy_square(piece, move)
-    piece.moved = true if piece.type == 'pawn'
+    piece.moved = true
     orig_pos = piece_coord(piece)
     @squares[move[0]][move[1]] = piece
     @squares[orig_pos[0]][orig_pos[1]] = nil
+  end
+
+  def castle(king, rook)
+    king_coord = piece_coord(king)
+    rook_coord = piece_coord(rook)
+    delta = king_coord[1] - rook_coord[1]
+    n_king_coord = delta.positive? ? [king_coord[0], king_coord[1] - 2] : [king_coord[0], king_coord[1] + 2]
+    n_rook_coord = delta.positive? ? [n_king_coord[0], n_king_coord[1] + 1] : [n_king_coord[0], n_king_coord[1] - 1]
+    occupy_square(king, n_king_coord)
+    occupy_square(rook, n_rook_coord)
   end
 
   def print_board_local

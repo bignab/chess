@@ -109,4 +109,13 @@ describe Moveable do # rubocop:disable Metrics/BlockLength
       end
     end
   end
+
+  describe 'pawn_moves' do
+    context 'when white' do
+      it 'on square [3,5]' do
+        correct_legal_moves = [[2, 5]]
+        expect(subject.pawn_moves([3, 5], 'white', true, subject.board, subject.board.squares[0][6])).to match_array(correct_legal_moves) # rubocop:disable Layout/LineLength
+      end
+    end
+  end
 end

@@ -29,10 +29,16 @@ module Checkable
     board.piece_coord(king[0]) if king.size == 1
   end
 
-  def simulate_board(board, piece_coord, move)
+  def simulate_board(board, move, piece_coord, king_coord = nil, rook_coord = nil)
     sim_board = Marshal.load(Marshal.dump(board))
-    sim_piece = sim_board.squares[piece_coord[0]][piece_coord[1]]
-    sim_board.occupy_square(sim_piece, move)
+    if %w[king_side_castle queen_side_castle].include?(move)
+      sim_king = sim_board.squares[king_coord[0]][king_coord[1]]
+      sim_rook = sim_board.squares[rook_coord[0]][rook_coord[1]]
+      sim_board.castle(sim_king, sim_rook)
+    else
+      sim_piece = sim_board.squares[piece_coord[0]][piece_coord[1]]
+      sim_board.occupy_square(sim_piece, move)
+    end
     sim_board
   end
 end

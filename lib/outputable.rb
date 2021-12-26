@@ -48,6 +48,10 @@ module Outputable
     puts 'King is in check!'
   end
 
+  def illegal_castle_message
+    puts 'Castling is illegal in this position.'
+  end
+
   def receive_input_and_parse
     result = 'Invalid'
     first_iter = true
