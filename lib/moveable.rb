@@ -111,17 +111,17 @@ module Moveable
     if colour == 'white'
       legal_moves.push([coord[0] - 1, coord[1]])
       legal_moves.push([coord[0] - 2, coord[1]]) unless moved
-      if pawn_capture?(board, piece, [coord[0] - 1, coord[1] + 1], colour) || (!board.squares[coord[0]][coord[1] + 1].nil? && board.squares[coord[0]][coord[1] + 1].enpassant == true)
+      if pawn_capture?(board, piece, [coord[0] - 1, coord[1] + 1], colour) || (!board.squares[coord[0]][coord[1] + 1].nil? && board.squares[coord[0]][coord[1] + 1].type == 'pawn' && board.squares[coord[0]][coord[1] + 1].enpassant == true)
         legal_moves.push([coord[0] - 1, coord[1] + 1])
-      elsif pawn_capture?(board, piece, [coord[0] - 1, coord[1] - 1], colour) || (!board.squares[coord[0]][coord[1] - 1].nil? && board.squares[coord[0]][coord[1] - 1].enpassant == true)
+      elsif pawn_capture?(board, piece, [coord[0] - 1, coord[1] - 1], colour) || (!board.squares[coord[0]][coord[1] - 1].nil? && board.squares[coord[0]][coord[1] - 1].type == 'pawn' && board.squares[coord[0]][coord[1] - 1].enpassant == true)
         legal_moves.push([coord[0] - 1, coord[1] - 1])
       end
     else
       legal_moves.push([coord[0] + 1, coord[1]])
       legal_moves.push([coord[0] + 2, coord[1]]) unless moved
-      if pawn_capture?(board, piece, [coord[0] + 1, coord[1] + 1], colour) || (!board.squares[coord[0]][coord[1] + 1].nil? && board.squares[coord[0]][coord[1] + 1].enpassant == true)
+      if pawn_capture?(board, piece, [coord[0] + 1, coord[1] + 1], colour) || (!board.squares[coord[0]][coord[1] + 1].nil? && board.squares[coord[0]][coord[1] + 1].type == 'pawn' && board.squares[coord[0]][coord[1] + 1].enpassant == true)
         legal_moves.push([coord[0] + 1, coord[1] + 1])
-      elsif pawn_capture?(board, piece, [coord[0] + 1, coord[1] - 1], colour) || (!board.squares[coord[0]][coord[1] - 1].nil? && board.squares[coord[0]][coord[1] - 1].enpassant == true)
+      elsif pawn_capture?(board, piece, [coord[0] + 1, coord[1] - 1], colour) || (!board.squares[coord[0]][coord[1] - 1].nil? && board.squares[coord[0]][coord[1] - 1].type == 'pawn' && board.squares[coord[0]][coord[1] - 1].enpassant == true)
         legal_moves.push([coord[0] + 1, coord[1] - 1])
       end
     end

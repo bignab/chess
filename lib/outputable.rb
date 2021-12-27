@@ -6,7 +6,7 @@ require './lib/parser'
 # Module used to display any and all output for the game.
 module Outputable
   def print_board(squares)
-    # puts `clear`
+    puts `clear`
     puts '   a b c d e f g h'
     squares.each_with_index do |row, r_index|
       print " #{8 - r_index} "
@@ -23,6 +23,7 @@ module Outputable
       puts
     end
     puts '   a b c d e f g h'
+    puts ''
   end
 
   def intro_message

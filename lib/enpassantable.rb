@@ -12,7 +12,7 @@ module Enpassantable
   end
 
   def give_enpassant_condition(pawn)
-    p pawn.enpassant = true
+    pawn.enpassant = true
   end
 
   def check_enpassant_condition(piece, orig_pos, move)

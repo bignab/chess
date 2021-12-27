@@ -40,4 +40,22 @@ module Checkable
     end
     sim_board
   end
+
+  def checkmate?(board, turn)
+    board.squares.flatten.each do |square|
+      next if square.nil? || square.colour == opposite_colour(turn)
+
+      move_list = legal_moves(board, square)
+      move_list.each do |move|
+        if !check_collision(board, square, move) || check_capture(board, square, move, turn)
+          return false unless king_in_check?(opposite_colour(turn), simulate_board(board, move, board.piece_coord(square)))
+        end
+      end
+    end
+    true
+  end
+
+  def opposite_colour(turn)
+    turn == 'white' ? 'black' : 'white'
+  end
 end

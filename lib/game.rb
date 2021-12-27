@@ -28,10 +28,14 @@ class Game
 
   def game_loop
     intro_message
-    until @end_condition
+    loop do
+      break if checkmate?(@board, @turn)
+
       full_player_turn
       next_turn
     end
+    @board.print_board_local
+    puts "GAME DONE!"
   end
 
   def full_player_turn
@@ -124,22 +128,4 @@ class Game
 end
 
 test_game = Game.new
-# test_game.next_turn
-# test_game.board.squares[3][4] = Pawn.new('white')
-# test_game.board.squares[3][4] = Pawn.new('black')
-# # test_game.board.squares[2][2] = Knight.new('black')
-# # # test_game.board.squares[3][1] = Bishop.new('white')
-# test_game.board.squares[7][5] = nil
-# test_game.board.squares[7][6] = nil
-# # # test_game.board.squares[6][4] = nil
-# test_game.board.squares[7][5] = nil
-# test_game.board.squares[7][6] = nil
-# test_game.board.print_board_local
-# test_game.move_piece
-# test_game.board.print_board_local
-
-# test_game.king_in_check?(test_game.turn, test_game.board)
-# test_game.move_piece(["pawn", [4, 2], [nil, 2], false, nil])
-# test_game.board.squares[0][7] = test_game.board.new_piece('Q', 'white')
 test_game.game_loop
-
