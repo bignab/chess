@@ -8,12 +8,14 @@ require './lib/pieces/pawn'
 require './lib/pieces/piece'
 require './lib/pieces/queen'
 require './lib/pieces/rook'
+require './lib/enpassantable'
 
 # Board class containing the board and representations of all the pieces on it, and methods making changes to the board.
 class Board
   attr_reader :squares
 
   include Outputable
+  include Enpassantable
 
   def initialize(empty: false)
     @squares = initialize_squares
@@ -79,6 +81,8 @@ class Board
     orig_pos = piece_coord(piece)
     @squares[move[0]][move[1]] = piece
     @squares[orig_pos[0]][orig_pos[1]] = nil
+    @squares[move[0] - 1][move[1]] = nil if piece.colour == 'black' && check_enpassant_removal(piece, self)
+    @squares[move[0] + 1][move[1]] = nil if piece.colour == 'white' && check_enpassant_removal(piece, self)
   end
 
   def castle(king, rook)

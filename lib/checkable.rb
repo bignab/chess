@@ -3,7 +3,6 @@
 require './lib/moveable'
 require './lib/collisionable'
 require './lib/capturable'
-require './lib/object'
 
 # Module to provide methods to check if either side's king is in check.
 module Checkable

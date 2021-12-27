@@ -6,6 +6,7 @@ require './lib/collisionable'
 require './lib/capturable'
 require './lib/checkable'
 require './lib/castleable'
+require './lib/enpassantable'
 
 # Game class containing the game loop and other methods relating to the progress of the game.
 class Game
@@ -17,6 +18,7 @@ class Game
   include Capturable
   include Checkable
   include Castleable
+  include Enpassantable
 
   def initialize(board = Board.new, turn = 'white', end_condition: false)
     @board = board
@@ -37,6 +39,7 @@ class Game
     player_turn_message(@turn)
     king_in_check_message if king_in_check?(opposite_turn, @board)
     move_piece
+    reset_enpassant_condition(@board, opposite_turn)
   end
 
   def next_turn
@@ -71,6 +74,7 @@ class Game
     if %w[king_side_castle queen_side_castle].include?(parser_arr)
       @board.castle(pieces[0], pieces[1])
     else
+      give_enpassant_condition(unique_piece) if check_enpassant_condition(unique_piece, @board.piece_coord(unique_piece), parser_arr[1])
       @board.occupy_square(unique_piece, parser_arr[1])
       check_pawn_promotion(unique_piece, parser_arr[1], parser_arr[4])
     end
@@ -121,7 +125,7 @@ end
 
 test_game = Game.new
 # test_game.next_turn
-# test_game.board.squares[4][4] = Pawn.new('white')
+# test_game.board.squares[3][4] = Pawn.new('white')
 # test_game.board.squares[3][4] = Pawn.new('black')
 # # test_game.board.squares[2][2] = Knight.new('black')
 # # # test_game.board.squares[3][1] = Bishop.new('white')
